@@ -3,6 +3,8 @@ import six.moves.cPickle as pickle
 import gzip
 import numpy as np
 
+import os
+adirCode=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def encode_label(j):  # <1>
     e = np.zeros((10, 1))
@@ -27,7 +29,7 @@ def load_data_impl():
     #   wget https://s3.amazonaws.com/img-datasets/mnist.npz -O code/dlgo/nn/mnist.npz
     # code based on:
     #   site-packages/keras/datasets/mnist.py
-    path = 'mnist.npz'
+    path=os.path.join(adirCode,'dlgo/nn/mnist.npz')
     f = np.load(path)
     x_train, y_train = f['x_train'], f['y_train']
     x_test, y_test = f['x_test'], f['y_test']
