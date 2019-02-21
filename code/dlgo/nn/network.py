@@ -51,6 +51,7 @@ class SequentialNetwork:  # <1>
     def train(self, training_data, epochs, mini_batch_size,
               learning_rate, test_data=None):
         n = len(training_data)
+        results=[]
         for epoch in range(epochs):  # <1>
             random.shuffle(training_data)
             mini_batches = [
@@ -61,10 +62,13 @@ class SequentialNetwork:  # <1>
                 self.train_batch(mini_batch, learning_rate)  # <3>
             if test_data:
                 n_test = len(test_data)
+                n_correct = self.evaluate(test_data)
                 print("Epoch {0}: {1} / {2}"
-                      .format(epoch, self.evaluate(test_data), n_test))  # <4>
+                      .format(epoch, n_correct, n_test))  # <4>
+                results.append({"correct":n_correct, "possible":n_test})
             else:
                 print("Epoch {0} complete".format(epoch))
+        return results
 
 # <1> To train our network, we pass over data for as many times as there are epochs.
 # <2> We shuffle training data and create mini-batches.
