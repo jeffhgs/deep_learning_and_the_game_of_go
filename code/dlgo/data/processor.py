@@ -83,7 +83,11 @@ class GoDataProcessor:
 
 # tag::read_sgf_files[]
     def process_zip(self, zip_file_name, data_file_name, game_list):
-        tar_file = self.unzip_data(zip_file_name)
+        try:
+            tar_file = self.unzip_data(zip_file_name)
+        except EOFError:
+            print("Warning: premature end of file: {}".format(zip_file_name))
+            return
         zip_file = tarfile.open(self.data_dir + '/' + tar_file)
         name_list = zip_file.getnames()
         total_examples = self.num_total_examples(zip_file, game_list, name_list)  # <1>
