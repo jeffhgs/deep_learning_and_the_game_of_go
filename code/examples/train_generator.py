@@ -60,3 +60,10 @@ model.evaluate_generator(generator=test_generator.generate(batch_size, num_class
 # <5> After each epoch we persist a checkpoint of the model.
 # <6> For evaluation we also speficy a generator and the number of steps.
 # end::train_generator_fit[]
+
+weight_file = '../agents/weights.hd5'
+model.save_weights(weight_file, overwrite=True)
+model_file = '../agents/model.yml'
+with open(model_file, 'w') as yml:
+    model_yaml = model.to_yaml()
+    yml.write(model_yaml)
