@@ -18,7 +18,16 @@ input_shape = (input_channels, go_board_rows, go_board_cols)
 
 X, y = processor.load_go_data(num_samples=1000)
 X = X.astype('float32')
-Y = to_categorical(y, nb_classes)
+Y = y
+# fix:
+#   Y = to_categorical(y, nb_classes)
+#
+#   ValueError: Error when checking target: expected dense_2 to have 2 dimensions, but got array with shape (5120, 361, 361)
+#
+# The call to to_categorical seems to be now in:
+#   dlgo.data.processor.GoDataProcessor#consolidate_games
+#
+# so we remove the call to to_categorical here, and then things seem to work.
 
 model = Sequential()
 network_layers = layers(input_shape)
