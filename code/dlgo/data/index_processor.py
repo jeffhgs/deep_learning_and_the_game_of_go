@@ -53,7 +53,10 @@ class KGSIndex:
             url = file_info['url']
             file_name = file_info['filename']
             if not os.path.isfile(self.data_directory + '/' + file_name):
+                print("already downloaded {}".format(file_name))
                 urls_to_download.append((url, self.data_directory + '/' + file_name))
+            else:
+                print("will download {}".format(file_name))
         cores = multiprocessing.cpu_count()
         pool = multiprocessing.Pool(processes=cores)
         try:
