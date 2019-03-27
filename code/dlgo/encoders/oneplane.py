@@ -9,6 +9,7 @@ from dlgo.goboard import Point
 # tag::oneplane_encoder[]
 class OnePlaneEncoder(Encoder):
     def __init__(self, board_size):
+        print("hello one plane encoder")
         self.board_width, self.board_height = board_size
         self.num_planes = 1
 

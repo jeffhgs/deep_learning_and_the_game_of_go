@@ -7,6 +7,7 @@ from dlgo.goboard import Move, Point
 
 class SevenPlaneEncoder(Encoder):
     def __init__(self, board_size):
+        print("hello seven plane encoder")
         self.board_width, self.board_height = board_size
         self.num_planes = 7
 
