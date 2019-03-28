@@ -11,11 +11,15 @@ from dlgo.httpfrontend import get_web_app
 from dlgo.networks import large
 # end::e2e_imports[]
 
+import os
+adirCode=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # tag::e2e_processor[]
 go_board_rows, go_board_cols = 19, 19
 nb_classes = go_board_rows * go_board_cols
 encoder = SevenPlaneEncoder((go_board_rows, go_board_cols))
-processor = GoDataProcessor(encoder=encoder.name())
+processor = GoDataProcessor(encoder=encoder.name(),
+                            data_directory=os.path.join(adirCode,"data"))
 
 X, y = processor.load_go_data(num_samples=100)
 # end::e2e_processor[]

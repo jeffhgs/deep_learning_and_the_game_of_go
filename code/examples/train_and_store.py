@@ -7,11 +7,15 @@ from dlgo.data.parallel_processor import GoDataProcessor
 from dlgo.encoders.sevenplane import SevenPlaneEncoder
 from dlgo.networks.large import layers
 
+import os
+adirCode=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 go_board_rows, go_board_cols = 19, 19
 nb_classes = go_board_rows * go_board_cols
 
 encoder = SevenPlaneEncoder((go_board_rows, go_board_cols))
-processor = GoDataProcessor(encoder=encoder.name())
+processor = GoDataProcessor(encoder=encoder.name(),
+                            data_directory=os.path.join(adirCode,"data"))
 
 input_channels = encoder.num_planes
 input_shape = (input_channels, go_board_rows, go_board_cols)

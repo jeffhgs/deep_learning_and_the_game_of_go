@@ -22,14 +22,14 @@ from dlgo.encoders.base import get_encoder_by_name
 
 def worker(jobinfo):
     try:
-        clazz, encoder, zip_file, data_file_name, game_list = jobinfo
-        clazz(encoder=encoder).process_zip(zip_file, data_file_name, game_list)
+        clazz, encoder, zip_file, data_file_name, data_directory, game_list = jobinfo
+        clazz(encoder=encoder, data_directory=data_directory).process_zip(zip_file, data_file_name, game_list)
     except (KeyboardInterrupt, SystemExit):
         raise Exception('>>> Exiting child process.')
 
 
 class GoDataProcessor:
-    def __init__(self, encoder='simple', data_directory='data'):
+    def __init__(self, encoder, data_directory):
         self.encoder_string = encoder
         self.encoder = get_encoder_by_name(encoder, 19)
         self.data_dir = data_directory
@@ -185,7 +185,7 @@ class GoDataProcessor:
             data_file_name = base_name + data_type
             if not os.path.isfile(self.data_dir + '/' + data_file_name):
                 zips_to_process.append((self.__class__, self.encoder_string, zip_name,
-                                        data_file_name, indices_by_zip_name[zip_name]))
+                                        data_file_name, self.data_dir, indices_by_zip_name[zip_name]))
 
         cores = multiprocessing.cpu_count()  # Determine number of CPU cores and split work load among them
         pool = multiprocessing.Pool(processes=cores)
