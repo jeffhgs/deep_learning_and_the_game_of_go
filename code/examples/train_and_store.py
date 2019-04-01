@@ -9,6 +9,7 @@ from dlgo.networks.large import layers
 
 import os
 adirCode=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.makedirs('../../log/test_dir', exist_ok=True)
 
 go_board_rows, go_board_cols = 19, 19
 nb_classes = go_board_rows * go_board_cols
@@ -42,9 +43,9 @@ model.compile(loss='categorical_crossentropy', optimizer='adadelta', metrics=['a
 
 model.fit(X, Y, batch_size=128, epochs=100, verbose=1)
 
-weight_file = '../agents/weights.hd5'
+weight_file = '../../log/agent_weights.hd5'
 model.save_weights(weight_file, overwrite=True)
-model_file = '../agents/model.yml'
+model_file = '../../log/agent_model.yml'
 with open(model_file, 'w') as yml:
     model_yaml = model.to_yaml()
     yml.write(model_yaml)
