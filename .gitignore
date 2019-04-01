@@ -115,3 +115,6 @@ stem*.png
 ./data
 
 node_modules
+.idea/
+code/data/
+code/logs/
