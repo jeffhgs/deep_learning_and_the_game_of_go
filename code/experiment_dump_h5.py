@@ -26,12 +26,7 @@ def dump_h5_tree(h5):
         print("found {}".format(json.dumps(dict, sort_keys=True)))
 
 def load_and_dump_h5_tree(rfile):
-#    print({
-#        'rfile': rfile,
-#        'adirCode': adirCode
-#    })
-    afileData = os.path.join(adirCode, rfile)
-    f = h5py.File(afileData, "r")
+    f = h5py.File(rfile, "r")
     dump_h5_tree(f)
     f.close()
 
