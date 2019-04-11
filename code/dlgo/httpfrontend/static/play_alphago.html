@@ -211,7 +211,7 @@ jsetup.create('board', function(canvas) {
     applyMove(JGO.BLACK, coord);
 
     waitForBot();
-    fetch('/select-move/predict', {
+    fetch('/select-move/alphago', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
