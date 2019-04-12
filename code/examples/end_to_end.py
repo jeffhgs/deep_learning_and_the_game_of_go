@@ -23,7 +23,7 @@ encoder = SevenPlaneEncoder((go_board_rows, go_board_cols))
 processor = GoDataProcessor(encoder=encoder.name(),
                             data_directory=os.path.join(adirCode,"data"))
 
-X, y = processor.load_go_data(num_samples=100)
+X, y = processor.load_go_data(num_samples=1000)
 # end::e2e_processor[]
 
 # tag::e2e_model[]
@@ -35,7 +35,7 @@ for layer in network_layers:
 model.add(Dense(nb_classes, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adadelta', metrics=['accuracy'])
 
-model.fit(X, y, batch_size=128, epochs=20, verbose=1)
+model.fit(X, y, batch_size=128, epochs=100, verbose=1)
 # end::e2e_model[]
 
 # tag::e2e_agent[]
