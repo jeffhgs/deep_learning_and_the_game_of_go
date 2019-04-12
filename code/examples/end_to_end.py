@@ -13,6 +13,8 @@ from dlgo.networks import large
 
 import os
 adirCode=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+rdirOut='../../log/agent'
+os.makedirs(os.path.join(rdirOut,'test_dir'), exist_ok=True)
 
 # tag::e2e_processor[]
 go_board_rows, go_board_cols = 19, 19
@@ -38,11 +40,11 @@ model.fit(X, y, batch_size=128, epochs=20, verbose=1)
 
 # tag::e2e_agent[]
 deep_learning_bot = DeepLearningAgent(model, encoder)
-deep_learning_bot.serialize("../agents/deep_bot.h5")
+deep_learning_bot.serialize(os.path.join(rdirOut,"deep_bot.h5"))
 # end::e2e_agent[]
 
 # tag::e2e_load_agent[]
-model_file = h5py.File("../agents/deep_bot.h5", "r")
+model_file = h5py.File(os.path.join(rdirOut,"deep_bot.h5"), "r")
 bot_from_file = load_prediction_agent(model_file)
 
 web_app = get_web_app({'predict': bot_from_file})
