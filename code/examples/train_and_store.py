@@ -9,7 +9,7 @@ from dlgo.networks.large import layers
 
 import os
 adirCode=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-rdirOut='../../log'
+rdirOut=os.path.join(adirCode,'log')
 os.makedirs(os.path.join(rdirOut,'test_dir'), exist_ok=True)
 
 go_board_rows, go_board_cols = 19, 19
