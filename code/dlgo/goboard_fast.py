@@ -371,7 +371,7 @@ class GameState():
             return False
         if self.last_move.is_resign:
             return True
-        second_last_move = self.previous_state.last_move
+        second_last_move = None if self.previous_state is None else self.previous_state.last_move
         if second_last_move is None:
             return False
         return self.last_move.is_pass and second_last_move.is_pass
