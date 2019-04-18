@@ -7,12 +7,19 @@ from dlgo.networks.alphago import alphago_model
 from keras.callbacks import ModelCheckpoint
 import h5py
 
+import os
+adirCode=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+rdirOut=os.path.join(adirCode,'log')
+os.makedirs(os.path.join(rdirOut,'test_dir'), exist_ok=True)
+
 rows, cols = 19, 19
 num_classes = rows * cols
 num_games = 10000
 
 encoder = AlphaGoEncoder()
-processor = GoDataProcessor(encoder=encoder.name())
+processor = GoDataProcessor(encoder=encoder.name(),
+                            data_directory=os.path.join(adirCode, "data")
+                            )
 generator = processor.load_go_data('train', num_games, use_generator=True)
 test_generator = processor.load_go_data('test', num_games, use_generator=True)
 # end::alphago_sl_data[]
@@ -33,12 +40,12 @@ alphago_sl_policy.fit_generator(
     steps_per_epoch=generator.get_num_samples() / batch_size,
     validation_data=test_generator.generate(batch_size, num_classes),
     validation_steps=test_generator.get_num_samples() / batch_size,
-    callbacks=[ModelCheckpoint('alphago_sl_policy_{epoch}.h5')]
+    callbacks=[ModelCheckpoint(os.path.join(rdirOut,'alphago_sl_policy_{epoch}.h5'))]
 )
 
 alphago_sl_agent = DeepLearningAgent(alphago_sl_policy, encoder)
 
-with h5py.File('alphago_sl_policy.h5', 'w') as sl_agent_out:
+with h5py.File(os.path.join(rdirOut,'alphago_sl_policy.h5'), 'w') as sl_agent_out:
     alphago_sl_agent.serialize(sl_agent_out)
 # end::alphago_sl_train[]
 
