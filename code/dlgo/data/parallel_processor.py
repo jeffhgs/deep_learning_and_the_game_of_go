@@ -43,6 +43,7 @@ class GoDataProcessor:
         sampler = Sampler(data_dir=self.data_dir)
         data = sampler.draw_data(data_type, num_samples)
 
+        self.clear_cache()
         self.map_to_workers(data_type, data)  # <1>
         if use_generator:
             generator = DataGenerator(self.data_dir, data)
@@ -126,6 +127,12 @@ class GoDataProcessor:
             current_labels, labels = labels[:chunksize], labels[chunksize:]
             np.save(feature_file, current_features)
             np.save(label_file, current_labels)
+
+    def clear_cache(self):
+        for feature_file in glob.glob(self.data_dir + '/' + '*_features_*.npy'):
+            os.unlink(feature_file)
+        for feature_file in glob.glob(self.data_dir + '/' + '*_labels_*.npy'):
+            os.unlink(feature_file)
 
     def consolidate_games(self, name, samples):
         files_needed = set(file_name for file_name, index in samples)
