@@ -73,9 +73,9 @@ class KGSIndex:
 
     def create_index_page(self):
         """If there is no local html containing links to files, create one."""
-        if os.path.isfile(self.index_page):
+        if os.path.isfile(os.path.join(self.data_directory,self.index_page)):
             print('>>> Reading cached index page')
-            index_file = open(self.index_page, 'r')
+            index_file = open(os.path.join(self.data_directory,self.index_page), 'r')
             index_contents = index_file.read()
             index_file.close()
         else:
@@ -84,7 +84,7 @@ class KGSIndex:
             data = six.text_type(fp.read())
             fp.close()
             index_contents = data
-            index_file = open(self.index_page, 'w')
+            index_file = open(os.path.join(self.data_directory,self.index_page), 'w')
             index_file.write(index_contents)
             index_file.close()
         return index_contents
