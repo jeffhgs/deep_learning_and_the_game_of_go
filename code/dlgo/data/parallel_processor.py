@@ -202,18 +202,22 @@ class GoDataProcessor:
         for index in game_list:
             name = name_list[index + 1]
             if name.endswith('.sgf'):
-                sgf_content = zip_file.extractfile(name).read()
-                sgf = Sgf_game.from_string(sgf_content)
-                game_state, first_move_done = self.get_handicap(sgf)
+                try:
+                    sgf_content = zip_file.extractfile(name).read()
+                    sgf = Sgf_game.from_string(sgf_content)
+                    game_state, first_move_done = self.get_handicap(sgf)
 
-                num_moves = 0
-                for item in sgf.main_sequence_iter():
-                    color, move = item.get_move()
-                    if color is not None:
-                        if first_move_done:
-                            num_moves += 1
-                        first_move_done = True
-                total_examples = total_examples + num_moves
+                    num_moves = 0
+                    for item in sgf.main_sequence_iter():
+                        color, move = item.get_move()
+                        if color is not None:
+                            if first_move_done:
+                                num_moves += 1
+                            first_move_done = True
+                    total_examples = total_examples + num_moves
+                except Exception as ex:
+                    print('threw an exception loading file={} exception='.format(name))
+                    print(ex)
             else:
                 print('file does not end in sgf, skipping {}'.format(name))
         return total_examples
