@@ -215,5 +215,5 @@ class GoDataProcessor:
                         first_move_done = True
                 total_examples = total_examples + num_moves
             else:
-                raise ValueError(name + ' is not a valid sgf')
+                print('file does not end in sgf, skipping {}'.format(name))
         return total_examples
