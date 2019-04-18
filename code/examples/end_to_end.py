@@ -40,7 +40,8 @@ model.fit(X, y, batch_size=128, epochs=100, verbose=1)
 
 # tag::e2e_agent[]
 deep_learning_bot = DeepLearningAgent(model, encoder)
-deep_learning_bot.serialize(os.path.join(rdirOut,"deep_bot.h5"))
+with h5py.File(os.path.join(rdirOut,"deep_bot.h5"), 'w') as file_agent_out:
+    deep_learning_bot.serialize(file_agent_out)
 # end::e2e_agent[]
 
 # tag::e2e_load_agent[]
