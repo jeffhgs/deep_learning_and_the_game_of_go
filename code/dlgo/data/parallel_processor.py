@@ -84,30 +84,34 @@ class GoDataProcessor:
 
         counter = 0
         for index in game_list:
-            name = name_list[index + 1]
-            if not name.endswith('.sgf'):
-                raise ValueError(name + ' is not a valid sgf')
-            sgf_content = zip_file.extractfile(name).read()
-            sgf = Sgf_game.from_string(sgf_content)
+            try:
+                name = name_list[index + 1]
+                if not name.endswith('.sgf'):
+                    raise ValueError(name + ' is not a valid sgf')
+                sgf_content = zip_file.extractfile(name).read()
+                sgf = Sgf_game.from_string(sgf_content)
 
-            game_state, first_move_done = self.get_handicap(sgf)
+                game_state, first_move_done = self.get_handicap(sgf)
 
-            for item in sgf.main_sequence_iter():
-                color, move_tuple = item.get_move()
-                point = None
-                if color is not None:
-                    if move_tuple is not None:
-                        row, col = move_tuple
-                        point = Point(row + 1, col + 1)
-                        move = Move.play(point)
-                    else:
-                        move = Move.pass_turn()
-                    if first_move_done and point is not None:
-                        features[counter] = self.encoder.encode(game_state)
-                        labels[counter] = self.encoder.encode_point(point)
-                        counter += 1
-                    game_state = game_state.apply_move(move)
-                    first_move_done = True
+                for item in sgf.main_sequence_iter():
+                    color, move_tuple = item.get_move()
+                    point = None
+                    if color is not None:
+                        if move_tuple is not None:
+                            row, col = move_tuple
+                            point = Point(row + 1, col + 1)
+                            move = Move.play(point)
+                        else:
+                            move = Move.pass_turn()
+                        if first_move_done and point is not None:
+                            features[counter] = self.encoder.encode(game_state)
+                            labels[counter] = self.encoder.encode_point(point)
+                            counter += 1
+                        game_state = game_state.apply_move(move)
+                        first_move_done = True
+            except Exception as ex:
+                print('threw an exception loading file={} exception='.format(name))
+                print(ex)
 
         feature_file_base = self.data_dir + '/' + data_file_name + '_features_%d'
         label_file_base = self.data_dir + '/' + data_file_name + '_labels_%d'
