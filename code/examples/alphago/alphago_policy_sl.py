@@ -14,7 +14,7 @@ os.makedirs(os.path.join(rdirOut,'test_dir'), exist_ok=True)
 
 rows, cols = 19, 19
 num_classes = rows * cols
-num_games = 10000
+num_games = 1000
 
 encoder = AlphaGoEncoder()
 processor = GoDataProcessor(encoder=encoder.name(),
