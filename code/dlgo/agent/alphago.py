@@ -88,7 +88,7 @@ class AlphaGoMCTS(Agent):
                 if not node.children:  # <3>
                     if current_state.is_over():
                         break
-                    moves, probabilities = self.policy_probabilities(current_state)  # <4>
+                    moves, probabilities = self.policy_probabilities(current_state)  # <4> # crash1: level 1
                     node.expand_children(moves, probabilities)  # <4>
 
                 move, node = node.select_child()  # <5>
@@ -128,7 +128,7 @@ class AlphaGoMCTS(Agent):
 # tag::alphago_policy_probs[]
     def policy_probabilities(self, game_state):
         encoder = self.policy._encoder
-        outputs = self.policy.predict(game_state)
+        outputs = self.policy.predict(game_state) # crash1: level 2
         legal_moves = game_state.legal_moves()
         if not legal_moves:
             return [], []

@@ -41,7 +41,7 @@ class PolicyAgent(Agent):
     def predict(self, game_state):
         encoded_state = self._encoder.encode(game_state)
         input_tensor = np.array([encoded_state])
-        return self._model.predict(input_tensor)[0]
+        return self._model.predict(input_tensor)[0] # crash1: level 3
 
     def set_temperature(self, temperature):
         self._temperature = temperature
