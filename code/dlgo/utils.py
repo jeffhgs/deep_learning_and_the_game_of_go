@@ -53,6 +53,13 @@ def coords_from_point(point):
 class MoveAge():
     def __init__(self, board):
         self.move_ages = - np.ones((board.num_rows, board.num_cols))
+        # TODO: is this supposed to be an integer array?  Floats can't be used as array
+        # indexes, e.g. alphago.py:
+        #
+        #        ages = min(game_state.board.move_ages.get(r, c), 8)
+        #        if ages > 0:
+        #            print("ages={} r={} c={}".format(ages,r,c))
+        #            board_tensor[offset("turns_since") + ages][r][c] = 1
 
     def get(self, row, col):
         return self.move_ages[row, col]
