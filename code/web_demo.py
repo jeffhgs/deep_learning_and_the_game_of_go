@@ -6,7 +6,11 @@ from dlgo import agent
 from dlgo import httpfrontend
 from dlgo import mcts
 from dlgo import rl
+from dlgo.agent import load_prediction_agent, load_policy_agent, AlphaGoMCTS
+from dlgo.rl import load_value_agent
 
+import os
+adirCode=os.path.dirname(os.path.abspath(__file__))
 
 def main():
     parser = argparse.ArgumentParser()
@@ -33,6 +37,15 @@ def main():
         ac_bot = rl.load_ac_agent(h5py.File(args.ac_agent))
         ac_bot.set_temperature(0.05)
         bots['ac'] = ac_bot
+    if True:
+        # see code/dlgo/agent/alphago_tst.py
+        fast_policy = load_prediction_agent(h5py.File(os.path.join(adirCode,'test_alphago_sl_policy.h5'), 'r'))
+        strong_policy = load_policy_agent(h5py.File(os.path.join(adirCode,'test_alphago_rl_policy.h5'), 'r'))
+        value = load_value_agent(h5py.File(os.path.join(adirCode,'test_alphago_value.h5'), 'r'))
+
+        alphago = AlphaGoMCTS(strong_policy, fast_policy, value,
+                              num_simulations=20, depth=5, rollout_limit=10)
+        bots['alphago'] = alphago
 
     web_app = httpfrontend.get_web_app(bots)
     web_app.run(host=args.bind_address, port=args.port)
