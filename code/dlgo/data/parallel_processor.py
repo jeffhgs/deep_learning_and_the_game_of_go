@@ -167,7 +167,7 @@ class GoDataProcessor:
                     row, col = move
                     go_board.place_stone(Player.black, Point(row + 1, col + 1))  # black gets handicap
             first_move_done = True
-            game_state = GameState(go_board, Player.white, None, move)
+            game_state = GameState(go_board, Player.white, None, Move.play(move))
         return game_state, first_move_done
 
     def map_to_workers(self, data_type, samples):
