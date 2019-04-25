@@ -78,4 +78,7 @@ print("prediction RT 0: {}".format(bot_from_file.model.predict(np.array([encoder
 
 print("prediction RT 1: {}".format(bot_from_file.model.predict(np.array([encoder.encode(game_state1)]))))
 
+print("prediction RT agent 0: {}".format(bot_from_file.select_move(game_state0)))
+
+print("prediction RT agent 1: {}".format(bot_from_file.select_move(game_state1)))
 
