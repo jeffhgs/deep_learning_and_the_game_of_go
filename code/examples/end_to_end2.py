@@ -45,21 +45,11 @@ if False:
 #how would you like to play?
 
 import numpy as np
-from dlgo import goboard_fast as goboard
-from dlgo.utils import coords_from_point
-from dlgo.utils import point_from_coords
-from dlgo.gotypes import Player, Point
+from dlgo import testfixtures as testfixtures
+game_states=testfixtures.get_test_game_states()
 
-board_size = 19
-row=3
-col=3
-game_state0 = goboard.GameState.new_game(board_size)
-#print("prediction 0: {}".format(model.predict(np.array([encoder.encode(game_state0)]))))
-
-move1 = goboard.Move.play(Point(row, col))
-game_state1 = game_state0.apply_move(move1)
-
-#print("prediction 1: {}".format(model.predict(np.array([encoder.encode(game_state1)]))))
+#print("prediction 0: {}".format(model.predict(np.array([encoder.encode(game_states[0])]))))
+#print("prediction 1: {}".format(model.predict(np.array([encoder.encode(game_states[1])]))))
 
 if False:
     with h5py.File(os.path.join(rdirOut,"deep_bot.h5"), 'w') as file_agent_out:
@@ -75,11 +65,11 @@ print("successfully round tripped {}".format(os.path.join(rdirOut,"deep_bot.h5")
 #web_app.run()
 # end::e2e_load_agent[]
 
-print("prediction RT 0: {}".format(bot_from_file.model.predict(np.array([encoder.encode(game_state0)]))))
+print("prediction RT 0: {}".format(bot_from_file.model.predict(np.array([encoder.encode(game_states[0])]))))
 
-print("prediction RT 1: {}".format(bot_from_file.model.predict(np.array([encoder.encode(game_state1)]))))
+print("prediction RT 1: {}".format(bot_from_file.model.predict(np.array([encoder.encode(game_states[1])]))))
 
-print("prediction RT agent 0: {}".format(bot_from_file.select_move(game_state0)))
+print("prediction RT agent 0: {}".format(bot_from_file.select_move(game_states[0])))
 
-print("prediction RT agent 1: {}".format(bot_from_file.select_move(game_state1)))
+print("prediction RT agent 1: {}".format(bot_from_file.select_move(game_states[1])))
 
