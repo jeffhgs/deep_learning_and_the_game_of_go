@@ -43,6 +43,7 @@ deep_learning_bot = DeepLearningAgent(model, encoder)
 
 #how would you like to play?
 
+import numpy as np
 from dlgo import goboard_fast as goboard
 from dlgo.utils import coords_from_point
 from dlgo.utils import point_from_coords
@@ -52,13 +53,12 @@ board_size = 19
 row=3
 col=3
 game_state0 = goboard.GameState.new_game(board_size)
-print("prediction 0: {}".format(model.predict(encoder.encode(game_state0))))
-#np.array([
+print("prediction 0: {}".format(model.predict(np.array([encoder.encode(game_state0)]))))
 
-move1 = goboard.Move.play(point_from_coords(Point(row, col)))
+move1 = goboard.Move.play(Point(row, col))
 game_state1 = game_state0.apply_move(move1)
 
-print("prediction 1: {}".format(model.predict(encoder.encode(game_state1))))
+print("prediction 1: {}".format(model.predict(np.array([encoder.encode(game_state1)]))))
 
 
 with h5py.File(os.path.join(rdirOut,"deep_bot.h5"), 'w') as file_agent_out:
