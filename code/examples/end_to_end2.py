@@ -73,3 +73,9 @@ print("successfully round tripped {}".format(os.path.join(rdirOut,"deep_bot.h5")
 #web_app = get_web_app({'predict': bot_from_file})
 #web_app.run()
 # end::e2e_load_agent[]
+
+print("prediction RT 0: {}".format(bot_from_file.model.predict(np.array([encoder.encode(game_state0)]))))
+
+print("prediction RT 1: {}".format(bot_from_file.model.predict(np.array([encoder.encode(game_state1)]))))
+
+
