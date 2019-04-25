@@ -52,7 +52,7 @@ def get_web_app(bot_map):
                 next_move = goboard.Move.play(point_from_coords(move))
             game_state = game_state.apply_move(next_move)
         bot_agent = bot_map[bot_name]
-        bot_move = bot_agent.select_move(game_state)
+        bot_move = bot_agent.select_move(game_state) # crash predict: level 1
         if bot_move.is_pass:
             bot_move_str = 'pass'
         elif bot_move.is_resign:

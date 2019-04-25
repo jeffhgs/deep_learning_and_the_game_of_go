@@ -25,11 +25,11 @@ class DeepLearningAgent(Agent):
     def predict(self, game_state):
         encoded_state = self.encoder.encode(game_state)
         input_tensor = np.array([encoded_state])
-        return self.model.predict(input_tensor)[0]
+        return self.model.predict(input_tensor)[0] # crash predict: level 3
 
     def select_move(self, game_state):
         num_moves = self.encoder.board_width * self.encoder.board_height
-        move_probs = self.predict(game_state)
+        move_probs = self.predict(game_state) # crash predict: level 2
 # end::dl_agent_predict[]
 
 # tag::dl_agent_probabilities[]
