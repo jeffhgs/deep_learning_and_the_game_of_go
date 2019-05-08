@@ -1,14 +1,26 @@
 # tag::load_opponents[]
 from dlgo.agent.pg import PolicyAgent
 from dlgo.agent.predict import load_prediction_agent
-from dlgo.encoders.alphago import AlphaGoEncoder
+#from dlgo.encoders.alphago import AlphaGoEncoder
+from dlgo.encoders.sevenplane import SevenPlaneEncoder
 from dlgo.rl.simulate import experience_simulation
 import h5py
 
-encoder = AlphaGoEncoder()
+import sys
+import os
+def usage():
+    print("usage:")
+    print("  alphago_policy_rl.py <policy file>")
+    sys.exit(1)
 
-sl_agent = load_prediction_agent(h5py.File('alphago_sl_policy.h5'))
-sl_opponent = load_prediction_agent(h5py.File('alphago_sl_policy.h5'))
+rfileSl=sys.argv[1]
+if(not os.path.exists(rfileSl)):
+    usage()
+
+sl_agent = load_prediction_agent(h5py.File(rfileSl))
+sl_opponent = load_prediction_agent(h5py.File(rfileSl))
+
+encoder = sl_agent.encoder
 
 alphago_rl_agent = PolicyAgent(sl_agent.model, encoder)
 opponent = PolicyAgent(sl_opponent.model, encoder)
